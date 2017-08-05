@@ -39,6 +39,5 @@ public class BroadcastD extends BroadcastReceiver {
                 notificationBuilder.setContentIntent(pending);
                 // using the same tag and Id causes the new notification to replace an existing one
                 mNotificationManager.notify(String.valueOf(System.currentTimeMillis()), (intent_number | (intent_number + 1) | (intent_number + 2)), notificationBuilder.build());
-
-        }
     }
+}
