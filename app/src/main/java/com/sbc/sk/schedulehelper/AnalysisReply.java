@@ -6,6 +6,7 @@ package com.sbc.sk.schedulehelper;
 2번기능 : 스케줄 등록 및 카톡 공유기능
 
 4번기능 : 근수형 function 1
+
 */
 
 import android.app.AlarmManager;
@@ -110,42 +111,42 @@ public class AnalysisReply extends Service {
             if (fn_http.equals("http") == true) {
 
                 //전역변수들
-                SharedPreferences sp = getSharedPreferences("sp",MODE_PRIVATE);
-                http_counting=sp.getInt("http_counting",0);
-                intent_timing_var[0]=sp.getInt("intent_timing_var[0]",0);
-                intent_timing_var[1]=sp.getInt("intent_timing_var[1]",0);
+                SharedPreferences sp = getSharedPreferences("sp", MODE_PRIVATE);
+                http_counting = sp.getInt("http_counting", 0);
+                intent_timing_var[0] = sp.getInt("intent_timing_var[0]", 0);
+                intent_timing_var[1] = sp.getInt("intent_timing_var[1]", 0);
 
                 //변수 불러와
                 int[] Var_saved = new int[2];
-                Var_saved=Var_upgrade(0, 100, http_counting);
-                int http_code=Var_saved[0];
-                int http_intent_number= Var_saved[1];
+                Var_saved = Var_upgrade(0, 100, http_counting);
+                int http_code = Var_saved[0];
+                int http_intent_number = Var_saved[1];
 
                 //TO-DO SOME THING
-                Intent boosted_intent = new Intent(getApplicationContext(),Boosted_http.class);
-                boosted_intent.putExtra("Boosted_http_code",http_code);
-                boosted_intent.putExtra("Boosted_links",input_s);
+                Intent boosted_intent = new Intent(getApplicationContext(), Boosted_http.class);
+                boosted_intent.putExtra("Boosted_http_code", http_code);
+                boosted_intent.putExtra("Boosted_links", input_s);
                 getApplicationContext().sendBroadcast(boosted_intent);
 
                 http_array[http_code] = new AlarmHATT(getApplicationContext());
                 http_array[http_code].Alarm(input_s, http_code, http_intent_number);
-                Log.d("Analysis","Log시작");
+                Log.d("Analysis", "Log시작");
                 Log.d("Var_saved", Double.toString((double) Var_saved[0]));  //code 초기값 = 0
                 Log.d("Var_saved 100~ 위", Double.toString((double) Var_saved[1])); // 0부터 시작
                 Log.d("http 관련 count(전역)", Double.toString((double) http_counting));
                 Log.d("http code 관련(지역)", Double.toString((double) http_code));
                 Log.d("차이:분", Double.toString((double) intent_timing_var[0]));
                 Log.d("차이:시간", Double.toString((double) intent_timing_var[1]));
-                Log.d("Analysis","Log끝");
+                Log.d("Analysis", "Log끝");
 
                 //변수 Edit
                 SharedPreferences.Editor sp_editor = sp.edit();
-                sp_editor.putInt("http_counting",http_counting);
-                sp_editor.putInt("intent_timing_var[0]",intent_timing_var[0]);
-                sp_editor.putInt("intent_timing_var[1]",intent_timing_var[1]);
+                sp_editor.putInt("http_counting", http_counting);
+                sp_editor.putInt("intent_timing_var[0]", intent_timing_var[0]);
+                sp_editor.putInt("intent_timing_var[1]", intent_timing_var[1]);
                 sp_editor.commit();
 
-                if(http_counting==30) {
+                if (http_counting == 30) {
                     Toast.makeText(getApplicationContext(), "죄송합니다. Web 알림기능은 최대 30개까지 지원합니다", Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), "따라서 모든 Web 알림기능은 자동 초기화됩니다.", Toast.LENGTH_SHORT).show();
                     sp_editor.clear();
@@ -166,6 +167,8 @@ public class AnalysisReply extends Service {
                 | fn_character == '8'
                 | fn_character == '9') {
             fn_number = 1;
+
+            try{
 
             String sc_date, sc_time, sc_title_s;
             String[] s_array;
@@ -188,33 +191,46 @@ public class AnalysisReply extends Service {
 
             insertRecord((String) sc_title, (sc_year + 2000), sc_month, sc_day, sc_hour, sc_min, (sc_year + 2000), sc_month, sc_day, (sc_hour + 1), sc_min);
             return 1;
-        } else if (fn_character == '#') {
+            }
+            catch (java.lang.ArrayIndexOutOfBoundsException error1){
+                Toast.makeText(getApplicationContext(), "그러나 일정 추가 기능에 부적절한 형식이니\n올바른 양식을 다시 참조하여 주십시오 :)", Toast.LENGTH_LONG).show();
+            }return -1;
+        }
+
+        else if (fn_character == '#') {
             fn_number = 2;
+            try {
+                String sc_date, sc_time, sc_title_s;
+                String[] s_array;
+                s_array = input_s.split("\\.");
 
-            String sc_date, sc_time, sc_title_s;
-            String[] s_array;
-            s_array = input_s.split("\\.");
+                sc_date = s_array[1];
+                sc_time = s_array[2];
+                sc_title_s = s_array[3];
 
-            sc_date = s_array[1];
-            sc_time = s_array[2];
-            sc_title_s = s_array[3];
+                sc_year = Integer.parseInt(sc_date.substring(0, 2));
+                sc_month = Integer.parseInt(sc_date.substring(2, 4));
+                sc_day = Integer.parseInt(sc_date.substring(4, 6));
 
-            sc_year = Integer.parseInt(sc_date.substring(0, 2));
-            sc_month = Integer.parseInt(sc_date.substring(2, 4));
-            sc_day = Integer.parseInt(sc_date.substring(4, 6));
+                sc_hour = Integer.parseInt(sc_time.substring(0, 2));
+                sc_min = Integer.parseInt(sc_time.substring(2, 4));
 
-            sc_hour = Integer.parseInt(sc_time.substring(0, 2));
-            sc_min = Integer.parseInt(sc_time.substring(2, 4));
+                sc_title = sc_title_s;
 
-            sc_title = sc_title_s;
+                memo = null;
 
-            memo = null;
+                insertRecord((String) sc_title, (sc_year + 2000), sc_month, sc_day, sc_hour, sc_min, (sc_year + 2000), sc_month, sc_day, (sc_hour + 1), sc_min);
 
-            insertRecord((String) sc_title, (sc_year + 2000), sc_month, sc_day, sc_hour, sc_min, (sc_year + 2000), sc_month, sc_day, (sc_hour + 1), sc_min);
+                sendRecord((String) sc_title, (sc_year + 2000), sc_month, sc_day, sc_hour, sc_min, (sc_year + 2000), sc_month, sc_day, (sc_hour + 1), sc_min);
+                return 2;
 
-            sendRecord((String) sc_title, (sc_year + 2000), sc_month, sc_day, sc_hour, sc_min, (sc_year + 2000), sc_month, sc_day, (sc_hour + 1), sc_min);
-            return 2;
-        } else if (fn_character == '%') {
+            } catch (java.lang.ArrayIndexOutOfBoundsException error2) {
+                Toast.makeText(getApplicationContext(), "그러나 일정 공유 기능에 부적절한 형식이니\n올바른 양식을 다시 참조하여 주십시오 :)", Toast.LENGTH_LONG).show();
+            }
+        return -1;
+        }
+
+        else if((input_s.length()==1) &&(fn_character == '%')) {
             Intent i = new Intent(getApplicationContext(), SettingActivity.class);
             PendingIntent p = PendingIntent.getActivity(getApplicationContext(), 0, i, 0);
             try {
@@ -223,6 +239,7 @@ public class AnalysisReply extends Service {
                 e.printStackTrace();
             }
             return 4;
+
         } else {
             fn_number = 0;
 

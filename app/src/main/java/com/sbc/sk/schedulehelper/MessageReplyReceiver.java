@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MessageReplyReceiver extends BroadcastReceiver{
@@ -27,12 +28,9 @@ public class MessageReplyReceiver extends BroadcastReceiver{
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
                 notificationManager.cancel(conversationId);
                 Toast.makeText(context, "처리되었습니다!", Toast.LENGTH_SHORT).show();
-
                 Intent i2 = new Intent(context, MessagingService.class);
                 context.startService(i2);
             }
-
-
         }
     }
 
