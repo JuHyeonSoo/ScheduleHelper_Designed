@@ -224,14 +224,14 @@ public class GPS extends Service implements LocationListener {
 
 
 
-        alertDialog.setTitle("GPS 사용유무셋팅");
+        alertDialog.setTitle("GPS Setting 유/무");
 
-        alertDialog.setMessage("GPS 셋팅이 되지 않았을수도 있습니다. \n 설정창으로 가시겠습니까?");
+        alertDialog.setMessage("GPS 세팅이 되지 않았습니다. \n 설정창으로 가시겠습니까?");
 
 
                 // OK 를 누르게 되면 설정창으로 이동합니다.
 
-                alertDialog.setPositiveButton("Settings",
+                alertDialog.setPositiveButton("Setting",
 
                         new DialogInterface.OnClickListener() {
 

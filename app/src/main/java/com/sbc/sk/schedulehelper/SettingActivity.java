@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
-public class SettingActivity extends Activity {
+public class SettingActivity extends Activity  {
 
 
 

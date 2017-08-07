@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -92,8 +91,8 @@ public class Service2 extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("스케줄자동저장기능")
-                        .setContentText("같은장소에 계속머물렀습니다 스케줄로 저장하시겠습니까?")
+                        .setContentTitle("일정 자동 저장 기능")
+                        .setContentText("같은 장소에 계속 머무르셨습니다. 일정으로 등록하시겠습니까?")
                         .addAction(R.drawable.ic_launcher,"Yes",pi);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -191,12 +190,12 @@ public class Service2 extends Service {
 
                         if(ymd_i==Integer.parseInt(ymd_s) && Math.abs(hour_i*60+minute_i-Integer.parseInt(hour_s)*60-Integer.parseInt(minute_s))<=dr_i)
                         {
-                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜 시간 스케쥴이 지속되는시간은(분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고 현재날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 겹칩니다",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜와 시각 및 일정의 시간은 (분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고, 현재 날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 겹칩니다",Toast.LENGTH_SHORT).show();
 
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜 시간 스케쥴이 지속되는시간은(분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고 현재날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 안겹칩니다",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"기존에 있는 스케쥴의 날짜와 시각 및 일정의 시간은 (분)"+ymd_i+" "+hour_i+" "+minute_i+" "+dr_i+"이고, 현재 날짜와 시간은 "+ymd_s+" "+hour_s+" "+minute_s+"이므로 스케쥴이 안겹칩니다",Toast.LENGTH_SHORT).show();
 
                             mNotificationManager.notify(0,mBuilder.build());
 
