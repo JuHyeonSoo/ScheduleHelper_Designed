@@ -49,6 +49,7 @@ public class Service2 extends Service {
         // 데이터를 전달할 필요가 없으면 return null;
         return null;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,14 +60,8 @@ public class Service2 extends Service {
         Log.d("test", "서비스의 onCreate");
         Thread counter = new Thread(new Counter()); counter.start();
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
-
-
-
-
-
-
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 서비스가 호출될 때마다 실행
@@ -212,7 +207,8 @@ public class Service2 extends Service {
             // Log로 Count 찍어보기
             Log.d("COUNT,", count + ""); } });
         // Sleep을 통해 1초씩 쉬도록 한다.
-        try { Thread.sleep(1000*3); } catch (InterruptedException e) { e.printStackTrace(); } } handler.post(new Runnable() { @Override public void run() { Toast.makeText(getApplicationContext(), "서비스가 종료되었습니다.", Toast.LENGTH_SHORT).show(); } }); } }
+        try { Thread.sleep(1000*3); } catch (InterruptedException e) { e.printStackTrace(); } } handler.post(new Runnable() { @Override public void run() { Toast.makeText(getApplicationContext(), "서비스가 종료되었습니다.", Toast.LENGTH_SHORT).show(); } });
+        } }
 
 
 
@@ -226,14 +222,4 @@ public class Service2 extends Service {
         isStop = true;
         // 서비스가 종료될 때 실행
     }
-
-
-
-
-
-
-
-
-
-
 }

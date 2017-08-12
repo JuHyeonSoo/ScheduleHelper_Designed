@@ -6,7 +6,7 @@ package com.sbc.sk.schedulehelper;
 2번기능 : 스케줄 등록 및 카톡 공유기능
 
 4번기능 : 근수형 function 1
-
+5번기능 : 지각알려줌.
 */
 
 import android.app.AlarmManager;
@@ -169,7 +169,6 @@ public class AnalysisReply extends Service {
             fn_number = 1;
 
             try{
-
             String sc_date, sc_time, sc_title_s;
             String[] s_array;
             s_array = input_s.split("\\.");
@@ -181,10 +180,8 @@ public class AnalysisReply extends Service {
             sc_year = Integer.parseInt(sc_date.substring(0, 2));
             sc_month = Integer.parseInt(sc_date.substring(2, 4));
             sc_day = Integer.parseInt(sc_date.substring(4, 6));
-
             sc_hour = Integer.parseInt(sc_time.substring(0, 2));
             sc_min = Integer.parseInt(sc_time.substring(2, 4));
-
             sc_title = sc_title_s;
 
             memo = null;
@@ -193,6 +190,20 @@ public class AnalysisReply extends Service {
             return 1;
             }
             catch (java.lang.ArrayIndexOutOfBoundsException error1){
+                fn_number = 0;
+
+                sc_year = 0;
+                sc_month = 0;
+                sc_day = 0;
+
+                sc_hour = 0;
+                sc_min = 0;
+
+                sc_title = null;
+
+                memo = input;
+
+                insertMemo((String) memo);
                 Toast.makeText(getApplicationContext(), "그러나 일정 추가 기능에 부적절한 형식이니\n올바른 양식을 다시 참조하여 주십시오 :)", Toast.LENGTH_LONG).show();
             }return -1;
         }
@@ -225,6 +236,21 @@ public class AnalysisReply extends Service {
                 return 2;
 
             } catch (java.lang.ArrayIndexOutOfBoundsException error2) {
+                fn_number = 0;
+
+                sc_year = 0;
+                sc_month = 0;
+                sc_day = 0;
+
+                sc_hour = 0;
+                sc_min = 0;
+
+                sc_title = null;
+
+                memo = input;
+
+                insertMemo((String) memo);
+
                 Toast.makeText(getApplicationContext(), "그러나 일정 공유 기능에 부적절한 형식이니\n올바른 양식을 다시 참조하여 주십시오 :)", Toast.LENGTH_LONG).show();
             }
         return -1;
@@ -239,8 +265,17 @@ public class AnalysisReply extends Service {
                 e.printStackTrace();
             }
             return 4;
+        }
+         else if((input_s.length()==1)&&(fn_character=='@')){
+            Intent intent = new Intent(
+                    getApplicationContext(),//현재제어권자
+                    PunctualService.class); // 이동할 컴포넌트
+            startService(intent); // 서비스 시작
 
-        } else {
+            return 5;
+            }
+
+         else {
             fn_number = 0;
 
             sc_year = 0;

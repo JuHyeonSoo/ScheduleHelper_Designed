@@ -277,9 +277,11 @@ public class GPS extends Service implements LocationListener {
     public void onLocationChanged(Location location) {
 
         // TODO Auto-generated method stub
-        lon = location.getLongitude(); //경도
-        lat = location.getLatitude();   //위도
+        if(location !=null) {
+            lon = location.getLongitude(); //경도
+            lat = location.getLatitude();   //위도
 
+        }
 
     }
 
