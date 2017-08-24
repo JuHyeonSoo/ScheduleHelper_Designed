@@ -55,7 +55,7 @@ public class Boosted_http extends BroadcastReceiver{
                     NotificationCompat.Builder notificationBuilder =
                             new NotificationCompat.Builder(context)
                                     .setAutoCancel(true)
-                                    .setSmallIcon(R.mipmap.ic_launcher)
+                                    .setSmallIcon(R.mipmap.ic_launcher_schedulehelper_round)
                                     .setContentTitle(text);
                     NotificationManager mNotificationManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

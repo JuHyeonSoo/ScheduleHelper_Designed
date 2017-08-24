@@ -504,6 +504,7 @@ public class AnalysisReply extends Service {
             AlarmManager am3 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             //알람 예약
+
             am1.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), A_WEEK, sender1);
             am2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), A_WEEK, sender2);
             am3.setRepeating(AlarmManager.RTC_WAKEUP, calendar3.getTimeInMillis(), (2 * A_WEEK), sender3); //격주로 noti 발생하도록!

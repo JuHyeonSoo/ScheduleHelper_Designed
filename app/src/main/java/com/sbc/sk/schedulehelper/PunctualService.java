@@ -91,7 +91,7 @@ public class PunctualService extends Service implements GeoTask.Geo {
         //노티피케이션 설정
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_launcher_schedulehelper)
                         .setContentTitle("<Schedule Helper>")
                         .setContentText("Be Ready To Go :)");
 

@@ -93,7 +93,7 @@ public class MessagingService extends Service {
 
         // Build an Android N compatible Remote Input enabled action.
         NotificationCompat.Action actionReplyByRemoteInput = new NotificationCompat.Action.Builder(
-                R.mipmap.ic_launcher_orange, "전송", replyIntent)
+                R.mipmap.ic_launcher_schedulehelper_round, "전송", replyIntent)
                 .addRemoteInput(remoteInput)
                 .build();
 
@@ -119,9 +119,9 @@ public class MessagingService extends Service {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                 .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher_orange)
+                .setSmallIcon(R.mipmap.ic_launcher_schedulehelper_round)
                 .setLargeIcon(BitmapFactory.decodeResource(
-                        getApplicationContext().getResources(), R.mipmap.ic_launcher_round))
+                        getApplicationContext().getResources(), R.mipmap.ic_launcher_schedulehelper_round))
                 .setContentText(messageForNotification.toString())
                 .setWhen(conversation.getTimestamp())
                 .setContentTitle(conversation.getParticipantName())

@@ -85,10 +85,10 @@ public class Service2 extends Service {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_launcher_schedulehelper)
                         .setContentTitle("일정 자동 저장 기능")
                         .setContentText("같은 장소에 계속 머무르셨습니다. 일정으로 등록하시겠습니까?")
-                        .addAction(R.drawable.ic_launcher,"Yes",pi);
+                        .addAction(R.mipmap.ic_launcher_schedulehelper,"Yes",pi);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         byte [] buffer = new byte[6];

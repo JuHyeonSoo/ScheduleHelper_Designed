@@ -4,10 +4,12 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         SharedPreferences pref = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
         int sc_account = pref.getInt("sc_account", 0);
 
-        for (int traveler = 0; traveler<=sc_account-1; traveler++) {
+        for (int traveler = 0; traveler<=sc_account; traveler++) {
             String SELECT_SQL = "select "
                     + " sctitle, "
                     + " startyear, "
@@ -78,27 +80,36 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             String[] args1 = {String.valueOf(traveler)};
 
             Cursor c2 = db.rawQuery(SELECT_SQL, args1);
-            c2.moveToNext();
+            try{
+                c2.moveToNext();
 
-            Calendar startTime = Calendar.getInstance();
-            startTime.set(Calendar.HOUR_OF_DAY, c2.getInt(4));
-            startTime.set(Calendar.MINUTE, c2.getInt(5));
-            startTime.set(Calendar.MONTH, newMonth-1);
-            startTime.set(Calendar.DATE, c2.getInt(3));
-            startTime.set(Calendar.YEAR, c2.getInt(1));
-            Calendar endTime = (Calendar) startTime.clone();
-            endTime.add(Calendar.HOUR, 1);
-            WeekViewEvent event = new WeekViewEvent(1, c2.getString(0), startTime, endTime);
-            event.setColor(getResources().getColor(R.color.colorPrimary));
-            events.add(event);
-            c2.close();
+                Calendar startTime = Calendar.getInstance();
+                startTime.set(Calendar.HOUR_OF_DAY, c2.getInt(4));
+                startTime.set(Calendar.MINUTE, c2.getInt(5));
+                startTime.set(Calendar.MONTH, newMonth-1);
+                startTime.set(Calendar.DATE, c2.getInt(3));
+                startTime.set(Calendar.YEAR, c2.getInt(1));
+                Calendar endTime = (Calendar) startTime.clone();
+                endTime.add(Calendar.HOUR, 1);
+                WeekViewEvent event = new WeekViewEvent(traveler, c2.getString(0), startTime, endTime);
+                event.setColor(getResources().getColor(R.color.colorPrimary));
+                events.add(event);
+                c2.close();
+            } catch(CursorIndexOutOfBoundsException e) {
+                // CursorIndexOutOfBoundsException NULL
+            }
+
         }
-            return events;
+        return events;
     }
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+        String DELETE_SQL = "delete from " + Const.TABLE_NAME + " where scid = ?";
+        String[] args1 = {String.valueOf(event.getId())};
+        db.execSQL(DELETE_SQL, args1);
+        Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), "일정 " + event.getName() + " 삭제완료!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
